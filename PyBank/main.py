@@ -15,7 +15,7 @@ greatest_decrease = 0
 greatest_decrease_month = ""
 
 # Read csv file
-with open(budget_data_csv, "") as csvfile:
+with open(budget_data_csv, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
 
     # Read the header row
@@ -42,8 +42,29 @@ with open(budget_data_csv, "") as csvfile:
                 greatest_decrease = change
                 greatest_decrease_month = row[0]
 
-        # Store the current's month "Profit/Losses"
+        # Store the current month's "Profit/Losses"
         previous_profit_loss = int(row[1])
 
 # Calculate average change
 average_change = total_change / (total_months - 1)
+
+# Format the output
+analysis_output = f"""
+Financial Analysis
+----------------------------
+Total Months: {total_months}
+Total: ${net_total}
+Average Change: ${average_change:.2f}
+Greatest Increase in Profits: {greatest_increase_month} (${greatest_increase})
+Greatest Decrease in Profits: {greatest_decrease_month} (${greatest_decrease})
+"""
+
+# Print the analysis to the terminal
+print(analysis_output)
+
+# Export the analysis to a text file
+output_file = "financial_analysis.txt"
+with open(output_file, "w") as textfile:
+    textfile.write(analysis_output)
+
+print(f"Analysis exported to {output_file} successfully.")
